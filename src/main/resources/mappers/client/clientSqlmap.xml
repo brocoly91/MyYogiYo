@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ 
+
+<mapper namespace="com.yogiyo.demo.dao.ClientDao">
+
+	<!-- 글쓰기신규저장 -->
+	<insert id="insertCvo">
+		insert into 
+			TBL_CLIENT(
+						 CLIENT_NO,
+						 CLIENT_NAME,
+						 CLIENT_TELL,
+						 CLIENT_NUMBER
+						)
+		    	 values(
+		    	 		(SELECT NVL(MAX(CLIENT_NO),1000)+1 FROM TBL_CLIENT),
+		    	 		#{clientName},
+		    	 		#{clientTell},
+		    	 		#{clientNumber}
+		    	 		)
+	</insert>
+	
+<!-- 	#{replytext} -->
+	
+	<!-- 글쓰기신규저장 -->
+	<insert id="insertRvo">
+		insert into 
+			TBL_RESTAURANT(
+						   CLIENT_NUMBER,                  
+					       RESTAURANT_NO,              
+					       RESTAURANT_NAME,            
+					       RESTAURANT_TELL,            
+					       RESTAURANT_PRICE,           
+					       RESTAURANT_PAYMENT,         
+					       RESTAURANT_OPENING_HOURS,   
+					       RESTAURANT_ADDRESS,         
+					       RESTAURANT_CATEGORY,        
+					       RESTAURANT_DELEIVERY 
+						)
+		    	 values(
+		    	 		#{clientNumber},
+		    	 		(SELECT NVL(MAX(RESTAURANT_NO),1000)+1 FROM TBL_RESTAURANT),
+		    	 		#{restaurantName},
+		    	 		#{restaurantTell},
+		    	 		#{restaurantPrice},
+		    	 		#{restaurantPayment},
+		    	 		#{restaurantOpeningHours},
+		    	 		'우리집',
+		    	 		#{restaurantCategory},
+		    	 		#{restaurantDeleivery}
+		    	 		)
+	</insert>
+	
+		<insert id="insertGropMenu">
+		insert into 
+			TBL_GRP_MENU(
+						   GRP_MENU_NO,                  
+					       GRP_MENU_NAME,              
+					       GRP_MENU_EXP      				         
+						)
+		    	 values(
+		    	 		#{grpMenuNo},
+		    	 		#{grpMenuName},
+		    	 		#{grpMenuExp}
+		    	 		)
+	</insert>
+	
+	<select id="maxGrpMenuNo" resultType="java.lang.String">
+		SELECT NVL(MAX(GRP_MENU_NO),0)+1 FROM TBL_GRP_MENU
+	</select>
+</mapper>
